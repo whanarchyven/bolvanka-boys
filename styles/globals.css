@@ -1,26 +1,169 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@import url("../public/fonts/roboto/roboto.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background: linear-gradient(90deg, #FFFFFF 0%, #D0D2DE 100%);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+
+@media (max-width: 600px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-* {
-  box-sizing: border-box;
-}
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+@layer utilities {
+    .green-gradient{
+        background: linear-gradient(90deg, #65D7CC 0%, #60FDCF 49.03%);
+    }
+    .grey-gradient{
+        background: linear-gradient(90deg, #FFFFFF 0%, #D0D2DE 100%);
+    }
+    .bunny-generation-outside{
+        position: relative;
+        background: #ECEDF2;
+        clip-path: circle(180px at 50% 41%);
+    }
+    .bunny-generation-inside{
+        clip-path: circle(170px at 50% 41%);
+        background: white;
+    }
+    .rangebar>input[type=range]  {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        overflow: hidden;
+    }
+
+    .rangebar>input[type=range]::-webkit-slider-runnable-track {
+        background: linear-gradient(90deg, #64D2CC 0.17%, #29FF9E 99.99%);
+        border-radius: 200px;
+    }
+
+    .rangebar>input[type=range]::-webkit-slider-thumb {
+        background: white;
+        cursor: pointer;
+        width:25px;
+        height: 25px;
+        border-radius: 200px;
+        -webkit-appearance: none;
+        margin-top: -4px;
+        /*box-shadow: -200px  0 0 200px  #64D2CC;*/
+
+    }
+
+    .rangebar>input[type=range]::-moz-range-track {
+        background-color: blue;
+    }
+
+
+    .rangebar>input[type=range]::-moz-range-thumb {
+        background: #ecf0f1;
+        cursor: pointer;
+        border-radius:0px;
+        box-shadow: -200px  0 0 200px  #64D2CC;
+        padding: 0px;
+        margin: 0px;
+    }
+    .visible-false{
+        transform: translateY(100%);
+    }
+    .visible-true{
+        transform: translateY(0%);
+    }
+
+    .visible-transition{
+        transition: 1s;
+    }
+
+    .new-design-gradient{
+        background: linear-gradient(56.59deg, #A34EDF 0%, #557AFF 27.6%, #5FD8FF 81.77%, #E4FFBC 100%);
+    }
+
+    .coin-title-active{
+        box-shadow: -9.36387px 1.87277px 23.4097px #3DE8FF;
+        border: 1px solid white;
+        box-sizing: border-box;
+        /*outline-offset: 1px;*/
+    }
+    .coin-title{
+        background: linear-gradient(90deg, #3DB5F9 0%, #B8EAFF 100%);
+        border-radius: 34.1781px;
+    }
+
+    .buy-bg{
+        background: url("../public/images/buy/carrots_bg.png");
+    }
+
+    .connect-wallet-button{
+        background: linear-gradient(90deg, #3DB5F9 0%, #B8EAFF 100%) !important;
+        box-shadow: -9.36387px 1.87277px 23.4097px #3DE8FF !important;
+        border: 1px solid white !important;
+        box-sizing: border-box !important;
+        font-weight: bold !important;
+        color: white !important;
+        font-size: 1.25rem !important;
+    }
+
+
+
+    /*Characteristics Gradients*/
+
+
+    .str-gradient{
+        background: linear-gradient(90deg, #C74A54 0%, #FF3F4E 100%);
+    }
+
+    .dex-gradient{
+        background: linear-gradient(90deg, #A34EDF 0%, #EE87FF 100%);
+    }
+    .vit-gradient{
+        background: linear-gradient(90deg, #5F61FF 0%, #49B3FF 100%);
+    }
+    .int-gradient{
+        background: linear-gradient(90deg, #5FD9FF 0%, #7CFFF7 100%);
+    }
+    .krm-gradient{
+        background: linear-gradient(90deg, #65D6CB 0%, #5FFFCF 100%);
+    }
+    .deactive-gradient{
+        background-color: #E1EAFF;
+    }
+    .walk-gradient{
+        background: linear-gradient(143.04deg, #FFFFFF 10.84%, rgba(255, 255, 255, 0) 92.93%);
+    }
+    /*.share-report{*/
+    /*    background: url("../public/images/share_report_bg.png");*/
+    /*}*/
+    .clans-bg{
+        background: linear-gradient(56.59deg, #FD96FF 0%, #FB35FF 12.06%, #7866FF 86.98%, #66B6FF 100%);
+    }
+    .clans-table{
+        background: linear-gradient(135.11deg, #FFFFFF 2.99%, rgba(255, 255, 255, 0) 98.42%);
+        /*backdrop-filter: blur(22px)*/
+    }
+    ::-webkit-scrollbar {
+        height: 8px; /* высота для горизонтального скролла */
+        background-color: #E8E9EF;
+        border-radius: 999px;
+    }
+
+    /* ползунок скроллбара */
+    ::-webkit-scrollbar-thumb {
+        background-color: #FFFFFF;
+        border-radius: 999px;
+        border:1px solid #383858;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #383858;
+        cursor: pointer;
+    }
+
+
 }
