@@ -3,8 +3,6 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { activeTask } from "./interfaces/activeTask";
 import ProgressBar from "./UI/ProgressBar";
-import TaskChecker from "./UI/TaskChecker";
-import ActiveWorkPopUp from "./ActiveWorkPopUp";
 interface activeTaskModule {
   active_task?: {}
 }
@@ -25,7 +23,7 @@ const ActiveTask = ({ active_task }: activeTaskModule) => {
     //     h_bar='h-10'
     // }
     return (
-      <div className={'w-full h-full relative grid grid-cols-9 grid-rows-3 gap-2'} onClick={()=>{toggleActivePop()}}>
+      <div className={'w-full h-full relative grid grid-cols-9 grid-rows-3 gap-2'} onClick={()=>{}}>
         <div className={'col-start-1 col-end-8'}>
           {active_task != undefined ? <p className={'w-full font-semibold text-lg'}>Пора посадить морковку!</p> : null}
         </div>
@@ -55,7 +53,6 @@ const ActiveTask = ({ active_task }: activeTaskModule) => {
           {/*<p className={'w-full text-center font-semibold text-xs text-[#898994]'}>{active_task.workItem.type.toUpperCase()}</p>*/}
           <p className={'w-full text-center font-semibold text-xs text-[#898994]'}>{'M-2-E'}</p>
         </div>
-          {activePopOpen?<ActiveWorkPopUp togglePop={toggleActivePop} workItem={active_task}/>:null}
       </div>
     );
   }

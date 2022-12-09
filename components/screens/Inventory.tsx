@@ -5,9 +5,7 @@ import Image from "next/image";
 import PopUp from "../PopUp";
 import {equipmentItem} from "../interfaces/equipmentItem";
 import {bunnyInterface} from "../interfaces/bunnyInterface";
-import InventoryPopUp from "../InventoryPopUp";
-import {useUserGameFullState} from "../../data/data-hooks";
-import {sdk} from "../../graphql/sdk";
+
 import {router} from "next/client";
 import {useRouter} from "next/router";
 
@@ -68,33 +66,7 @@ const InventoryScreen = () => {
     //     },
     // ]
 
-    const [state,mutate]=useUserGameFullState()
 
-    const temp=state?.inventory?.[0]
-
-    const [popupItem,setPopupItem]=useState(temp);
-
-    const [openPopup,setOpenPopup]=useState(false)
-    const togglePop=()=>{
-        setOpenPopup(!openPopup);
-    }
-
-
-    const [myMarketOffers,setMyMarketOffers]=useState<any>([])
-
-    useEffect(()=>{
-        sdk()
-            .metaforestMyMarketList()
-            .then((response) => {
-                console.log(response);
-                if(response.metaforestMyMarketList){
-                    setMyMarketOffers(response?.metaforestMyMarketList)
-                }
-            })
-            .catch((e) => {
-                console.log(e);
-            })
-    },[openPopup])
 
     const router=useRouter()
 
@@ -106,7 +78,7 @@ const InventoryScreen = () => {
                     <p className={'text-white text-xl font-bold pl-3'}>Breed</p>
                     <div className={'w-7 h-7 p-1 rounded-full bg-white mr-1'}>
                         <div className={'w-full animate-spin-slow h-full relative'}>
-                            <Image src={'/images/breeding_module/loading.svg'} layout={'fill'}></Image>
+                            <Image alt={'breed'} src={'/images/breeding_module/loading.svg'} layout={'fill'}></Image>
                         </div>
                     </div>
                 </div>
@@ -117,27 +89,7 @@ const InventoryScreen = () => {
             {/*    /!*</div>*!/*/}
             {/*</div>*/}
             <div className={'gap-y-16 mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 overflow-y-scroll gap-4 h-full pb-24'}>
-                {state?.inventory?.map(item=>{
-                    let isOnMarket=false
-                    if (
-                        myMarketOffers.find(
-                            (sellingItem:any) => {return (sellingItem?.nftInfo?.idx == item.idx&&sellingItem?.offerParams?.offerStatus!='CANCEL')}
-                        )
-                    ) {
-                        isOnMarket=true;
-                    }
-                    let isEquiped=false;
-                    if(state.wornInventory?.find(worn=>worn?.idx==item.idx)){
-                        isEquiped=true;
-                    }
-                    if((!item.clan)){
-                        return <div className={'w-full'} key={item.idx} onClick={()=>{setPopupItem(item);togglePop()}}>
-                            <ItemCard isEquiped={isEquiped} onMarket={isOnMarket} item={item} key={item.idx}></ItemCard>
-                        </div>
-                    }
-                })}
             </div>
-            {openPopup&&popupItem?<InventoryPopUp togglePop={togglePop} item={popupItem}/>:null}
         </div>
     );
 };

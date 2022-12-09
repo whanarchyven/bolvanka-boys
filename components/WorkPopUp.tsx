@@ -4,7 +4,6 @@ import {bunnyInterface} from "./interfaces/bunnyInterface";
 import {workTask} from "./interfaces/workTask";
 import {statKeys} from "./types/statKeys";
 import StatRequirementBar from "./UI/StatRequirementBar";
-import TaskChecker from "./UI/TaskChecker";
 
 interface WorkPopUpInterface {
     workItem: {
@@ -126,7 +125,6 @@ const WorkPopUp = ({workItem, togglePop}: WorkPopUpInterface) => {
                     </div>
                 </div>
                 <div className={"h-16 relative w-full mt-3 rounded-full"}>
-                    <TaskChecker workItem={workItem}/>
                 </div>
                 <button
                     className={

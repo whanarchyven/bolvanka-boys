@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const PageIndex = () => {
   useEffect(() => {
-    document.location.href = "/access-denied";
+    document.location.href = "/home";
   }, []);
   return null;
 };

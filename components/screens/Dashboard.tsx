@@ -8,7 +8,7 @@ import LevelUp from "../LevelUp";
 import Lootboxes from "../Lootboxes";
 import FeedPopUp from "../FeedPopUp";
 import {useRouter} from "next/router";
-import MyTimer from "../UI/Timer";
+
 import PushNotification from "../PushNotification";
 import {pushNote} from "../utils/pushAtom";
 import {usePushNote} from "../utils/usePush"
@@ -182,7 +182,7 @@ const Dashboard = () => {
                         "w-32 h-12 rounded-full bg-white text-black flex justify-center items-center"
                     }
                 >
-                    <MyTimer timer={300} expiryTimestamp={213}/>
+                    12.12.22
                 </div>
             </div>
             {levelPopOpen ? (

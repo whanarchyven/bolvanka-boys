@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ItemCard from "./ItemCard";
 import Image from "next/image";
 import LootboxPop from "./LootboxPop";
-import MyTimer from "./UI/Timer";
 
 interface lootboxesInterface {
   togglePop: () => any
@@ -87,7 +86,7 @@ const Lootboxes = ({ togglePop }: lootboxesInterface) => {
             </div>
             <button
               className={'w-full h-9 mt-3 text-[#A731FF] text-center font-bold rounded-full bg-white'}>opens
-                in <MyTimer expiryTimestamp={time} timer={300}></MyTimer>
+                in 23:23:23:23
             </button>
             <div className={'grid grid-cols-2 gap-3 h-9 mt-3'}>
               <button className={'rounded-full bg-black text-white'} onClick={() => { setChoosenLootBox(item); toogleLootBoxPop() }}>Open</button>

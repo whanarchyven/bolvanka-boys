@@ -4,7 +4,6 @@ import { equipmentItem } from "./interfaces/equipmentItem";
 import Image from "next/image";
 import { bunnyInterface } from "./interfaces/bunnyInterface";
 import { marketplaceItem } from "./interfaces/marketplaceItem";
-import MyTimer from "./UI/Timer";
 interface ItemCardInterface {
   togglePop: () => any;
 }
@@ -102,7 +101,7 @@ const LootboxPop = ({ togglePop }: ItemCardInterface) => {
               >
                 opens in <br />
                 <span className={"text-5xl w-full"}>
-                  <MyTimer timer={300} expiryTimestamp={time}></MyTimer>
+                  23:23:23:23
                 </span>
               </p>
 
