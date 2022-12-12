@@ -8,10 +8,6 @@ import {equipmentItem} from "../interfaces/equipmentItem";
 import StatPop from "../StatPop";
 
 
-interface equipmentInterface {
-    bunny: bunnyInterface;
-    // attachItemToBunny : (place:"left"|"right"|"necklace"|"faces"|"clothes"|"hats"|"overhead"|"ears",item:equipmentItem)=>any
-}
 
 const tempInventory=[
     {
@@ -191,7 +187,7 @@ interface keyStat {
     id: "str" | "dex" | "vit" | "int" | "krm"|"rarityInt";
 }
 
-const Equipment = ({bunny}: equipmentInterface) => {
+const Equipment = () => {
     const leftTabs: keyTab[] = [
         {id: "Necklace"},
         {id: "Face"},
