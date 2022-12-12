@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {bunnyInterface} from "../interfaces/bunnyInterface";
 import BunnyGeneration from "../BunnyGeneration";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import {useRouter} from "next/router";
 import PushNotification from "../PushNotification";
 import {pushNote} from "../utils/pushAtom";
 import {usePushNote} from "../utils/usePush"
+import {equipmentItem} from "../interfaces/equipmentItem";
 
 const Dashboard = () => {
     // const { data:profileData, mutate } = sdk().useGetMe()
@@ -34,13 +35,38 @@ const Dashboard = () => {
 
     const router = useRouter();
 
+    let initWorn = [{
+        idx: 126,
+        itemSlot: 'Costume',
+        name: 'Hoodie',
+        baseParams: {
+            rarityInt: 2,
+            str: 1,
+            dex: 0,
+            int: 1,
+            vit: 3,
+            krm: 0
+        },
+        image: 'C_08_Casual',
+    }]
+    const [wornInventory, setWornInventory] = useState<Array<equipmentItem>>(initWorn)
+
+    useEffect(() => {
+        if (window) {
+            let localkey = localStorage.getItem('wornInventory')
+            if (localkey != null) {
+                setWornInventory(JSON.parse(localkey))
+            }
+        }
+    }, [])
+
 
     return (
         <div className={"w-full h-full flex justify-center flex-wrap"}>
             <div className={"w-full h-fit absolute top-0 bunny-generation-outside"}>
                 <div className={"w-full h-full bunny-generation-inside"}>
                     <div className={"w-[308px] h-[445px] mx-auto"}>
-                        <BunnyGeneration></BunnyGeneration>
+                        <BunnyGeneration suits={wornInventory}></BunnyGeneration>
                     </div>
                 </div>
             </div>
@@ -197,7 +223,7 @@ const Dashboard = () => {
                     togglePop={toggleLootPop}
                 />
             ) : null}
-            {feedPopOpen?(
+            {feedPopOpen ? (
                 <FeedPopUp
                     togglePop={toggleFeedPop}
                     carrotBalance={1203}

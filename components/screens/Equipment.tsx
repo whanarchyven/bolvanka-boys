@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import BunnyGeneration from "../BunnyGeneration";
 import {bunnyInterface} from "../interfaces/bunnyInterface";
@@ -6,12 +6,173 @@ import {StatTab} from "../UI/StatTab";
 import EquipmentPopUp from "../EquipmentPopUp";
 import {equipmentItem} from "../interfaces/equipmentItem";
 import StatPop from "../StatPop";
-import {toHttps} from "../utils/toHttps";
+
 
 interface equipmentInterface {
     bunny: bunnyInterface;
     // attachItemToBunny : (place:"left"|"right"|"necklace"|"faces"|"clothes"|"hats"|"overhead"|"ears",item:equipmentItem)=>any
 }
+
+const tempInventory=[
+    {
+        idx: 123,
+        itemSlot: 'HandLeft',
+        name: 'Ice Cream',
+        baseParams:{
+            rarityInt:1,
+            str:1,
+            dex:2,
+            int:0,
+            vit:0,
+            krm:0
+        },
+        image:'HL_01_Icecreram',
+    },
+    {
+        idx: 124,
+        itemSlot: 'Costume',
+        name: 'Pajama',
+        baseParams:{
+            rarityInt:1,
+            str:0,
+            dex:1,
+            int:1,
+            vit:0,
+            krm:0
+        },
+        image:'C_05_Pajamas-pink',
+    },
+    {
+        idx: 125,
+        itemSlot: 'Costume',
+        name: 'Office',
+        baseParams:{
+            rarityInt:2,
+            str:1,
+            dex:2,
+            int:1,
+            vit:0,
+            krm:0
+        },
+        image:'C_02_Suit',
+    },
+    {
+        idx: 126,
+        itemSlot: 'Costume',
+        name: 'Hoodie',
+        baseParams:{
+            rarityInt:2,
+            str:1,
+            dex:0,
+            int:1,
+            vit:3,
+            krm:0
+        },
+        image:'C_08_Casual',
+    },
+    {
+        idx: 127,
+        itemSlot: 'Costume',
+        name: 'Prison',
+        baseParams:{
+            rarityInt:3,
+            str:3,
+            dex:1,
+            int:1,
+            vit:3,
+            krm:0
+        },
+        image:'C_09_Prison',
+    },
+    {
+        idx: 128,
+        itemSlot: 'HandLeft',
+        name: 'Axe',
+        baseParams:{
+            rarityInt:2,
+            str:2,
+            dex:0,
+            int:0,
+            vit:2,
+            krm:0
+        },
+        image:'HL_02_Axe',
+    },
+    {
+        idx: 129,
+        itemSlot: 'HandLeft',
+        name: 'Hammer',
+        baseParams:{
+            rarityInt:1,
+            str:1,
+            dex:1,
+            int:0,
+            vit:0,
+            krm:0
+        },
+        image:'HL_03_Hammer',
+    },
+    {
+        idx: 130,
+        itemSlot: 'HandRight',
+        name: 'Gun',
+        baseParams:{
+            rarityInt:3,
+            str:4,
+            dex:3,
+            int:2,
+            vit:1,
+            krm:0
+        },
+        image:'HR_05_Gun',
+    },
+    {
+        idx: 131,
+        itemSlot: 'HandRight',
+        name: 'Watch',
+        baseParams:{
+            rarityInt:1,
+            str:0,
+            dex:1,
+            int:1,
+            vit:0,
+            krm:0
+        },
+        image:'HR_01_Watch',
+    },
+    {
+        idx: 132,
+        itemSlot: 'Necklace',
+        name: 'Carrot gold',
+        baseParams:{
+            rarityInt:2,
+            str:0,
+            dex:2,
+            int:1,
+            vit:1,
+            krm:0
+        },
+        image:'NL_02_Carrot-gold',
+    },
+    {
+        idx: 133,
+        itemSlot: 'Necklace',
+        name: 'TON silver',
+        baseParams:{
+            rarityInt:1,
+            str:0,
+            dex:1,
+            int:1,
+            vit:0,
+            krm:0
+        },
+        image:'NL_07_TON-silver',
+    }
+
+
+]
+
+
 
 interface keyTab {
     id:
@@ -27,7 +188,7 @@ interface keyTab {
 }
 
 interface keyStat {
-    id: "str" | "dex" | "vit" | "int" | "krm";
+    id: "str" | "dex" | "vit" | "int" | "krm"|"rarityInt";
 }
 
 const Equipment = ({bunny}: equipmentInterface) => {
@@ -78,6 +239,40 @@ const Equipment = ({bunny}: equipmentInterface) => {
 
     let isCalculate = true;
 
+
+    let initWorn=[tempInventory[3]]
+    const [wornInventory,setWornInventory]=useState<Array<equipmentItem>>(initWorn)
+
+    useEffect(()=>{
+        if(window){
+            let localkey=localStorage.getItem('wornInventory')
+            if(localkey!=null){
+                setWornInventory(JSON.parse(localkey))
+            }
+        }
+    },[])
+
+    const summStats=(stat:keyStat)=>{
+        let result=1;
+        wornInventory.map(item=>{
+            result+=item.baseParams[stat.id]
+        })
+        return result
+    }
+
+
+    const changeWornSlot=(item:equipmentItem)=>{
+        let needIndex=wornInventory.findIndex(worn=>worn.itemSlot==item.itemSlot)
+        let temp=wornInventory;
+        if(needIndex!=-1){
+            wornInventory[needIndex]=item;
+        }else{
+            temp.push(item)
+        }
+        setWornInventory(temp)
+        localStorage.setItem('wornInventory',JSON.stringify(wornInventory))
+    }
+
     return (
         <div className={"grid grid-cols-1 grid-rows-2 auto-rows-max w-full"}>
             <div className={" grid grid-cols-7"}>
@@ -94,8 +289,8 @@ const Equipment = ({bunny}: equipmentInterface) => {
                                     togglePop();
                                 }}
                             >
-                                {bunny.bunny.inventory?.findIndex(
-                                    (item) => item.type == tab.id
+                                {wornInventory?.findIndex(
+                                    (item) => item.itemSlot == tab.id
                                 ) != -1 ? (
                                     <div
                                         className={
@@ -108,13 +303,13 @@ const Equipment = ({bunny}: equipmentInterface) => {
                                             }
                                         >
                                             <div className={"w-3/5 h-3/5 relative"}>
-                                                {bunny.bunny.inventory.find(
-                                                    (item) => item.type == tab.id
+                                                {wornInventory.find(
+                                                    (item) => item.itemSlot == tab.id
                                                 )?.name != undefined ? (
                                                     <img
-                                                        src={`/images/${bunny.bunny.inventory.find(
-                                                            (item) => item.type == tab.id
-                                                        )?.name}`}
+                                                        src={`/images/boy_generation/${wornInventory.find(
+                                                            (item) => item.itemSlot == tab.id
+                                                        )?.image}.png`}
                                                         alt=''
                                                         className={'w-full h-full'}
                                                     ></img>
@@ -155,7 +350,7 @@ const Equipment = ({bunny}: equipmentInterface) => {
                             "h-52 w-36 absolute sm:w-48 scale-[1.6] sm:scale-100 sm:w-72 sm:top-0 sm:h-96"
                         }
                     >
-                        <BunnyGeneration></BunnyGeneration>
+                        <BunnyGeneration suits={wornInventory}></BunnyGeneration>
                     </div>
                 </div>
                 <div className={"grid gap-4 col-start-6 grid-rows-3 col-end-8 "}>
@@ -171,8 +366,8 @@ const Equipment = ({bunny}: equipmentInterface) => {
                                     togglePop();
                                 }}
                             >
-                                {bunny.bunny.inventory.findIndex(
-                                    (item) => item?.type == tab.id
+                                {wornInventory.findIndex(
+                                    (item) => item.itemSlot == tab.id
                                 ) != -1 ? (
                                     <div
                                         className={
@@ -185,13 +380,13 @@ const Equipment = ({bunny}: equipmentInterface) => {
                                             }
                                         >
                                             <div className={"w-3/5 h-3/5 relative"}>
-                                                {bunny.bunny.inventory?.find(
-                                                    (item) => item?.type == tab.id
+                                                {wornInventory?.find(
+                                                    (item) => item.itemSlot == tab.id
                                                 )?.name != undefined ? (
                                                     <img
-                                                        src={`images/${bunny.bunny.inventory?.find(
-                                                            (item) => item?.type == tab.id
-                                                        )?.name}`}
+                                                        src={`images/boy_generation/${wornInventory?.find(
+                                                            (item) => item.itemSlot == tab.id
+                                                        )?.image}.png`}
                                                         alt=''
                                                         className={'w-full h-full'}
                                                     ></img>
@@ -273,11 +468,16 @@ const Equipment = ({bunny}: equipmentInterface) => {
                                     </p>
                                 </div>
                                 <div className={"col-start-2 col-end-5 rounded-full"}>
-                                    <StatTab
+                                    {stat.id=='krm'?<StatTab
                                         stat_name={stat.id}
                                         stat_value={1}
                                         limit={limit}
-                                    /></div>
+                                    />:<StatTab
+                                        stat_name={stat.id}
+                                        stat_value={summStats(stat)}
+                                        limit={limit}
+                                    />}
+                                </div>
                                 <div
                                     className={
                                         "col-start-5 col-end-6 bg-black rounded-full h-full flex justify-center items-center cursor-pointer"
@@ -295,7 +495,7 @@ const Equipment = ({bunny}: equipmentInterface) => {
                 </div>
             </div>
             {popOpen == true ? (
-                <EquipmentPopUp choosenType={choosenType} togglePop={togglePop}/>
+                <EquipmentPopUp changeSlot={changeWornSlot} wornInventory={wornInventory} inventory={tempInventory} choosenType={choosenType} togglePop={togglePop}/>
             ) : null}
             {statOpen  ? (
                 <StatPop

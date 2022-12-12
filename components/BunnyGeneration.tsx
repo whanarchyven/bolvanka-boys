@@ -2,13 +2,13 @@ import React, {useEffect, useRef} from "react";
 import Image from "next/image";
 import {random} from "nanoid";
 import {bunnyInterface} from "./interfaces/bunnyInterface";
+import {equipmentItem} from "./interfaces/equipmentItem";
 
+interface Interface {
+    suits?:Array<equipmentItem>
+}
 
-const BunnyGeneration = () => {
-
-    const state = {
-        wornInventory: []
-    };
+const BunnyGeneration = ({suits}:Interface) => {
 
     return (
         <div className={"w-full h-full flex justify-center relative"}>
@@ -19,12 +19,12 @@ const BunnyGeneration = () => {
                     alt=""
                 ></img>
             </div>
-            {state?.wornInventory?.map((item) => {
+            {suits?.map((item) => {
                 return (
-                    <div className={"w-full absolute top-0 h-full px-[3.9%]"} key={item}>
-                        <img
-                            className={"w-full h-full"}
-                            src={item}
+                    <div className={"w-full absolute top-0 h-full px-[3.9%]"} key={item.idx}>
+                        <Image
+                            className={"w-full h-full"} layout={'fill'}
+                            src={`/images/boy_generation/${item.image}.png`}
                             alt=""
                         />
                     </div>
